@@ -6,7 +6,7 @@ public class Athlete {
 	private int athleteSkill;
 	private int athleteStamina;
 	private boolean athleteInjured;
-	private int athleteCost;
+	private int athleteContractPrice;
 	private int athleteSalePrice;
 	
 	public Athlete(String name, String position, int skill, int stamina, boolean available, int cost, int salePrice) {
@@ -15,7 +15,7 @@ public class Athlete {
 		athleteSkill = skill;
 		athleteStamina = stamina;
 		athleteInjured = available;
-		athleteCost = cost;
+		athleteContractPrice = cost;
 		athleteSalePrice = salePrice;
 	}
 	
@@ -25,7 +25,7 @@ public class Athlete {
 		athleteSkill = 0;
 		athleteStamina = 0;
 		athleteInjured = false;
-		athleteCost = 0;
+		athleteContractPrice = 0;
 		athleteSalePrice = 0;
 		
 	}
@@ -44,7 +44,7 @@ public class Athlete {
 			   "Position: " + athletePosition + "\n" + 
 			   "Skill: " + athleteSkill + "\n" + 
 			   "Stamina: " + athleteStamina + "\n" + 
-			   "Contract Price: " + athleteCost + "\n" + 
+			   "Contract Price: " + athleteContractPrice + "\n" + 
 			   "Selling Price: " + athleteSalePrice + "\n" + 
 			   "Can " + athleteName + " play? :" + canPlay();
 	}
@@ -56,23 +56,39 @@ public class Athlete {
 	
 	//Getters and setters for private attributes and also specific String to Athlete Object method
 	
+    //Should be renamed to getAthleteInstanceByName for more accurate naming
 	public Athlete getAthleteByName(String userInputAthleteName, Team userTeam) {
 		System.out.println("Program called getAthleteByName method, from Athlete class."); //Print Statement for Debugging.
 
-		    for (Athlete reserveUserAthlete : userTeam.reserveTeamRoster) { 
+		    for (Athlete reserveUserAthlete : userTeam.getReserveTeamRoster()) { 
 		        if (reserveUserAthlete.athleteName.equals(userInputAthleteName)){
 		  		return reserveUserAthlete;
 	        }
 		    }
 		    
-	        for (Athlete activeUserAthlete : userTeam.activeTeamRoster) { 
+	        for (Athlete activeUserAthlete : userTeam.getActiveTeamRoster()) { 
 		        if (activeUserAthlete.athleteName.equals(userInputAthleteName)){
 		  		return activeUserAthlete;
 		        }
 		    //If cannot find, will print Athlete not Found!
 		    }
+	        
 		    return null;
 		    }
+
+	
+	
+	
+	//This method will find an Athlete of the same name as User input. Then it will return type Athlete.
+	public Athlete getMarketAthleteByName(String userInputMarketAthleteName, Market userMarket) {
+		for(String marketAthleteName : userMarket.availableAthletes.keySet() ) {
+			if(marketAthleteName.equals(userInputMarketAthleteName)) {
+				return userMarket.availableAthletes.get(marketAthleteName);
+			}
+		}return null;
+	}
+	
+	
     
     public String getAthleteName() {
         return this.athleteName;
@@ -123,13 +139,13 @@ public class Athlete {
 	}
 
 	// Getter for athleteCost
-	public int getAthleteCost() {
-		return athleteCost;
+	public int getAthleteContractPrice() {
+		return athleteContractPrice;
 	}
 
 	// Setter for athleteCost
-	public void setAthleteCost(int athleteCost) {
-		this.athleteCost = athleteCost;
+	public void setAthleteContractPrice(int athleteContractPrice) {
+		this.athleteContractPrice = athleteContractPrice;
 	}
 
 	// Getter for athleteSalePrice
