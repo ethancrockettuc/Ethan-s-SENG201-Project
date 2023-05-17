@@ -1,5 +1,5 @@
 
-/* Update on 13/05: 
+/* Update on 18/05: 
  * can we use toString() method for each loop in checkAvailablePlayers method
  * Potential issues: 
  * - 
@@ -55,7 +55,7 @@ public class Market implements PurchaseOrSell {
 	//Getters & Setter needed for marketItem, since the user inputs the String not class Item. 
 	//This will influence how the rest of the method works.
 	public void purchaseItem(Inventory userInventory, Item marketItem){ 
-		if (userInventory.currentMoney >= availableItems.get(marketItem).itemCost && userInventory.itemsOwned.size() < 5) {
+		if (userInventory.getCurrentMoney() >= availableItems.get(marketItem).itemCost && userInventory.getItemsOwned().size() < 5) {
 			userInventory.addItem(marketItem);
 			System.out.println("Booster Item " + marketItem.itemName + " has been purchased.");
 			//we do not remove item from the market
@@ -68,14 +68,16 @@ public class Market implements PurchaseOrSell {
 	//If user has enough money, athlete is added into users reserve team, and athlete is removed from market availableAthletes hashmap.
 	//Getters & Setter needed for marketAthlete, since the user inputs the String not class Item.
 	
+	
 	//This is only for the first time in the GameEnvironment, specifically for purchasing athletes onto the active team.
-	public Boolean purchaseAthleteForFirstTime(Inventory userInventory, String marketAthleteName, Team userTeam) {
+	public Boolean purchaseAthleteForFirstTime(Inventory userInventory, String marketAthleteName, Team userTeam, Market userMarket) {
 //-----------------------------------BUG----------------------------------------------------------
-		Athlete marketAthlete = new Athlete().getAthleteByName(marketAthleteName, userTeam); //Using the Getter method
+		Athlete marketAthlete = new Athlete();
+				marketAthlete = marketAthlete.getMarketAthleteByName(marketAthleteName, userMarket); //Using the Getter method
 //----------------------------------BUG----------------------------------------------------------
-		if (userInventory.currentMoney >= marketAthlete.getAthleteCost() && userTeam.activeTeamRoster.size() <10 ) {
+		if (userInventory.getCurrentMoney() >= marketAthlete.getAthleteContractPrice() && userTeam.getActiveTeamRoster().size() <10 ) {
 			System.out.println(marketAthleteName + " purchased and added to active team.");
-			userTeam.activeTeamRoster.add(marketAthlete);
+			userTeam.getActiveTeamRoster().add(marketAthlete);
 			//Remove Athlete from Market
 			availableAthletes.remove(marketAthleteName);
 			return true;
@@ -90,11 +92,12 @@ public class Market implements PurchaseOrSell {
 	
 	
 	public Boolean purchaseAthlete(Inventory userInventory, String marketAthleteName, Team userTeam) {
-		Athlete marketAthlete = new Athlete().getAthleteByName(marketAthleteName, userTeam); //Using the Getter method
-		
-		if (userInventory.currentMoney >= marketAthlete.getAthleteCost() && userTeam.reserveTeamRoster.size() <5 ) {
+		Athlete marketAthlete = getAthleteByName(marketAthleteName, userTeam); //Using the Getter method
+		System.out.println("Looking at the marketAthlete variable: " + marketAthlete); //BUG
+		System.out.println("printing out marketAthlete Name: " + marketAthlete.getAthleteName()); //BUG
+		if (userInventory.getCurrentMoney() >= marketAthlete.getAthleteContractPrice() && userTeam.getReserveTeamRoster().size() <5 ) {
 			System.out.println(marketAthleteName + " purchased and added to reserve team.");
-			userTeam.reserveTeamRoster.add(marketAthlete);
+			userTeam.getReserveTeamRoster().add(marketAthlete);
 			//Remove Athlete from Market
 			availableAthletes.remove(marketAthleteName);
 			return true;
