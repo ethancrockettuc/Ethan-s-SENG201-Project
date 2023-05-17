@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class Team {
 	
-	public String teamName;
-	public ArrayList<Athlete> activeTeamRoster; 
-	public ArrayList<Athlete> reserveTeamRoster;
-	public int teamPoints;
+	private String teamName;
+	private ArrayList<Athlete> activeTeamRoster; 
+	private ArrayList<Athlete> reserveTeamRoster;
+	private int teamPoints;
 	
 	
 	//Need a way to sort athletes by position, automatically under certain conditions. otherwise, will specify throughout the program when to do it.
@@ -27,13 +27,15 @@ public class Team {
 		System.out.println("Your current active team roster is down below ");
 		//For loop for activeTeamRoster
 		for(Athlete activeUserAthlete: activeTeamRoster) {
-			System.out.println("Active Athlete Name: "+ activeUserAthlete.athleteName + ", Position: " + activeUserAthlete.athletePosition);
+			System.out.println("Active Athlete Name: "+ activeUserAthlete.getAthleteName() + ", Position: " + activeUserAthlete.getAthletePosition());
+			System.out.println("Stamina: "+ activeUserAthlete.getAthleteStamina() + ", Skill: " + activeUserAthlete.getAthleteSkill());
 		}
 		System.out.println("------------------------------------------------");
 		System.out.println("Your current reserve team roster is down below");
 		//For loop for reserveTeamRoster
 		for(Athlete reserveUserAthlete: reserveTeamRoster) {
-			System.out.println("Reserve Athlete Name: " + reserveUserAthlete.athleteName + ", Position: " + reserveUserAthlete.athletePosition);
+			System.out.println("Active Athlete Name: "+ reserveUserAthlete.getAthleteName() + ", Position: " + reserveUserAthlete.getAthletePosition());
+			System.out.println("Stamina: "+ reserveUserAthlete.getAthleteStamina() + ", Skill: " + reserveUserAthlete.getAthleteSkill());
 		}
 		System.out.println("------------------------------------------------");
 	}
@@ -41,8 +43,8 @@ public class Team {
 	public void replaceActiveAthlete(String activeUserAthleteName, String reserveUserAthleteName, Team userTeam) {
 		Athlete activeUserAthlete = new Athlete();
 		Athlete reserveUserAthlete = new Athlete();
-		Athlete activeUserAthlete = activeUserAthlete.getAthleteByName(activeUserAthleteName, userTeam);
-		Athlete reserveUserAthlete = reserveUserAthlete.getAthleteByName(reserveUserAthleteName, userTeam);
+		activeUserAthlete = activeUserAthlete.getAthleteByName(activeUserAthleteName, userTeam);
+		reserveUserAthlete = reserveUserAthlete.getAthleteByName(reserveUserAthleteName, userTeam);
 		
 		int indexActive = activeTeamRoster.indexOf(activeUserAthlete);
 		int indexReserve = reserveTeamRoster.indexOf(reserveUserAthlete);
@@ -50,5 +52,42 @@ public class Team {
 		activeTeamRoster.set(indexActive, reserveUserAthlete);
 		reserveTeamRoster.set(indexReserve, activeUserAthlete);
 	}	
+	
+	//Getters & Setters Methods for Team Class
+	
+    public String getTeamName() {
+        return teamName;
+    }
+    
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+    
+    public ArrayList<Athlete> getActiveTeamRoster() {
+        return activeTeamRoster;
+    }
+    
+    public void setActiveTeamRoster(ArrayList<Athlete> activeTeamRoster) {
+        this.activeTeamRoster = activeTeamRoster;
+    }
+    
+    public ArrayList<Athlete> getReserveTeamRoster() {
+        return reserveTeamRoster;
+    }
+    
+    public void setReserveTeamRoster(ArrayList<Athlete> reserveTeamRoster) {
+        this.reserveTeamRoster = reserveTeamRoster;
+    }
+    
+    public int getTeamPoints() {
+        return teamPoints;
+    }
+    
+    public void setTeamPoints(int teamPoints) {
+        this.teamPoints = teamPoints;
+    }
+	
+	
+	
 }
 
